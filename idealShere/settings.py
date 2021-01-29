@@ -37,10 +37,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     #サードパーティ
     'rest_framework',
+    'rest_framework.authtoken',
 
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    'rest_auth',
+    'rest_auth.registration',
 
     #自分作成アプリ
     'users',
@@ -128,3 +136,6 @@ STATIC_URL = '/static/'
 
 
 AUTH_USER_MODEL = 'users.CustomUser'
+
+
+SITE_ID = 1
