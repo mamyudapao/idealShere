@@ -52,6 +52,7 @@ INSTALLED_APPS = [
 
     #自分作成アプリ
     'users',
+    'posts',
 ]
 
 MIDDLEWARE = [
