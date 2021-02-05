@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'rest_auth',
     'rest_auth.registration',
 
+    'corsheaders',
+
     #自分作成アプリ
     'users',
     'posts',
@@ -62,6 +64,8 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+        'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -92,7 +96,7 @@ WSGI_APPLICATION = 'idealShere.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',    
     }
 }
 
@@ -139,4 +143,14 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'users.CustomUser'
 
 
+
 SITE_ID = 1
+
+
+# CORSの設定
+
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:8080',
+)
