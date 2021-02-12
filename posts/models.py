@@ -4,7 +4,7 @@ from idealShere.settings import AUTH_USER_MODEL
 
 # Create your models here.
 class Post(models.Model):
-    user_id = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='post_author')
+    user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='post_author')
     title = models.CharField(max_length=100)
     detail = models.CharField(max_length=240)
     category = models.CharField(max_length=100)
