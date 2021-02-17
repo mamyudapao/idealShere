@@ -1,8 +1,8 @@
 from rest_framework import generics, viewsets
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from posts.api.serializers import CommentSerializer, PostSerializer
-from posts.models import Post, Comment
+from posts.api.serializers import CommentSerializer, PostSerializer, MemberSerializer
+from posts.models import Post, Comment, Member
 from users.models import CustomUser
 from rest_framework.response import Response
 
@@ -38,6 +38,16 @@ class PostCommentList(generics.ListCreateAPIView):
         post = get_object_or_404(Post, id=kwargs_pk)
 
         serializer.save(user=custom_user, post=post)
+
+
+class PostMember(generics.ListCreateAPIView):
+    queryset = Member.objects.all()
+    serializer_class = MemberSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = Member.objects.filter(post=self.kwargs['pk'])
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 class CommentList(generics.ListCreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
@@ -47,3 +57,7 @@ class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
+
+class MemberList(generics.ListCreateAPIView):
+    queryset = Member.objects.all()
+    serializer_class = MemberSerializer

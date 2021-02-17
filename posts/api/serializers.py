@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from posts.models import Comment, Post
+from posts.models import Comment, Post, Member
 
 from users.serializers import CustomUserSerializer
 
@@ -17,3 +17,11 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ['content',  'user', 'post']
+
+
+class MemberSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField()
+    post = serializers.StringRelatedField()
+    class Meta:
+        model = Member
+        fields = ['user', 'post']
