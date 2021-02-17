@@ -5,14 +5,15 @@ from users.serializers import CustomUserSerializer
 
 
 class PostSerializer(serializers.ModelSerializer):
-    user = CustomUserSerializer()
+    user = serializers.StringRelatedField(read_only=True)
     class Meta:
         model = Post
         fields = ["title", "detail", "category", "invitation", "member_number", "user", "id"]
 
 
 class CommentSerializer(serializers.ModelSerializer):
-
+    user = serializers.StringRelatedField(read_only=True)
+    post = serializers.StringRelatedField(read_only=True)
     class Meta:
         model = Comment
-        fields = '__all__'
+        fields = ['content',  'user', 'post']

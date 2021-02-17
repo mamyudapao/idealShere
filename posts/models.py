@@ -11,15 +11,20 @@ class Post(models.Model):
     invitation = models.BooleanField()
     member_number = models.IntegerField(validators=[validators.MinValueValidator(0),
                                                     validators.MaxValueValidator(10)])
-
+    
     def __str__(self):
         return self.title
 
 
 class Comment(models.Model):
-    user_id = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE)
-    post_id = models.ForeignKey('posts.Post', on_delete=models.CASCADE)
+    user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE)
+    post = models.ForeignKey('posts.Post', on_delete=models.CASCADE)
     content = models.CharField(max_length=240)
 
     def __str__(self):
         return self.content
+
+
+class Member(models.Model):
+    user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='member')
+    post = models.ForeignKey('posts.Post', on_delete=models.CASCADE, related_name='post_project')
