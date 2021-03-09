@@ -1,33 +1,47 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
-from posts.models import Comment, Post, Member, Like
+from posts.models import Comment, Post, Member
 
 from users.serializers import CustomUserSerializer
 
 
 class PostSerializer(serializers.ModelSerializer):
-    user = CustomUserSerializer(read_only=True)
+    author = serializers.SerializerMethodField()
+    count_participants = serializers.SerializerMethodField()
+    user_has_participated = serializers.SerializerMethodField()
     class Meta:
         model = Post
-        fields = ["title", "detail", "category", "invitation", "member_number", "user", "id", "created_at", "image"]
+        fields = ["title", "detail", "category", "invitation", "member_number", "author", "id", "created_at", 'count_participants', 'user_has_participated',]
+
+    def get_count_participants(self, instance):
+        return instance.participants.count()
+
+    def get_user_has_participated(self, instance):
+        request = self.context.get("request")
+        return instance.participants.filter(pk=request.user.pk).exists()
+
+    def get_author(self, instance):
+        return instance.user.username
 
 
+        
 class CommentSerializer(serializers.ModelSerializer):
-    user = CustomUserSerializer(read_only=True)
-    post = serializers.StringRelatedField(read_only=True)
+
+    author = serializers.StringRelatedField()
+    likes_count = serializers.SerializerMethodField()
+    user_has_voted = serializers.SerializerMethodField()
+
     class Meta:
         model = Comment
-        fields = ['content',  'user', 'post', 'created_at', 'id']
-        
-class LikeSerializer(serializers.ModelSerializer):
-    user = CustomUserSerializer(read_only=True)
-    post = serializers.StringRelatedField(read_only=True)
-    class Meta:
-        model = Like
-        fields = ['user', 'comment', 'post', 'id']  
-        
+        exclude = ['post', 'voters']
 
+    def get_likes_count(self, instance):
+        return instance.voters.count()
 
+    def get_user_has_voted(self, instance):
+        request = self.context.get("request")
+        return instance.voters.filter(pk=request.user.pk).exists()
+    
 class MemberSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField()
     post = serializers.StringRelatedField()

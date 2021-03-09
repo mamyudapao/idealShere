@@ -15,6 +15,7 @@ class Post(models.Model):
     member_number = models.IntegerField(validators=[validators.MinValueValidator(0),
                                                     validators.MaxValueValidator(10)])
     created_at = models.DateTimeField(auto_now_add=True)
+    participants = models.ManyToManyField(AUTH_USER_MODEL)
     image = models.ImageField(upload_to='api/posts', null=True, blank=True)
 
     def __str__(self):
@@ -22,23 +23,17 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE)
+    author = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE)
     post = models.ForeignKey('posts.Post', on_delete=models.CASCADE)
     content = models.CharField(max_length=240)
     created_at = models.DateTimeField(auto_now_add=True)
+    voters = models.ManyToManyField(AUTH_USER_MODEL, related_name="likes_user")
 
     def __str__(self):
         return self.content
 
 
-class Like(models.Model):
-    user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE)
-    post = models.ForeignKey('posts.Post', on_delete=models.CASCADE)
-    comment = models.ForeignKey('posts.Comment', on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        unique_together = ['user', 'comment']
+    
 
 
 class Member(models.Model):
