@@ -11,7 +11,7 @@ class PostSerializer(serializers.ModelSerializer):
     user_has_participated = serializers.SerializerMethodField()
     class Meta:
         model = Post
-        fields = ["title", "detail", "category", "invitation", "member_number", "author", "id", "created_at", 'count_participants', 'user_has_participated',]
+        fields = ["title", "detail", "invitation", "member_number", "author", "id", "created_at", 'count_participants', 'user_has_participated',]
 
     def get_count_participants(self, instance):
         return instance.participants.count()

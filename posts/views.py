@@ -9,7 +9,7 @@ from rest_framework.response import Response
 
 
 class PostList(generics.ListCreateAPIView):
-    queryset = Post.objects.all()
+    queryset = Post.objects.order_by('-created_at')
     serializer_class = PostSerializer
     # permission_classes = [IsAuthenticatedOrReadOnly]
 
@@ -22,6 +22,7 @@ class PostList(generics.ListCreateAPIView):
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+
 
 class PostParticipateAPIView(APIView):
     serializer_class = PostSerializer
@@ -93,7 +94,6 @@ class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
 class CommentLikeAPIView(APIView):
     serializer_class = CommentSerializer
 
-
     def patch(self, request, pk):
         comment = get_object_or_404(Comment, pk=pk)
         user = request.user.id
@@ -117,6 +117,8 @@ class CommentLikeAPIView(APIView):
         serializer = self.serializer_class(comment, context=serializer_context)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 class MemberList(generics.ListCreateAPIView):
     queryset = Member.objects.all()
     serializer_class = MemberSerializer

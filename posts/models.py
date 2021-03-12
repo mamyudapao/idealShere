@@ -10,7 +10,6 @@ class Post(models.Model):
         AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='post_author')
     title = models.CharField(max_length=100)
     detail = models.CharField(max_length=240)
-    category = models.CharField(max_length=100)
     invitation = models.BooleanField()
     member_number = models.IntegerField(validators=[validators.MinValueValidator(0),
                                                     validators.MaxValueValidator(10)])
