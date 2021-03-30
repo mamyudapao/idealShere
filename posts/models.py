@@ -41,3 +41,11 @@ class Member(models.Model):
     post = models.ForeignKey(
         'posts.Post', on_delete=models.CASCADE, related_name='post_project')
     created_at = models.DateTimeField(auto_now_add=True)
+
+class Notification(models.Model):
+    sender_id = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='sender')
+    receiver_id = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='receiver')
+    post_id = models.ForeignKey('posts.Post', on_delete=models.CASCADE)
+    action = models.CharField(max_length=50)
+    checked = models.BooleanField()
+
