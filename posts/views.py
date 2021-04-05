@@ -62,10 +62,22 @@ class PostCommentList(generics.ListCreateAPIView):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
-    def perform_create(self, serializer):
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(request ,serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def perform_create(self, request, serializer):
         request_user = self.request.user
         kwargs_pk = self.kwargs.get('pk')
         custom_user = get_object_or_404(CustomUser, id=request_user.id)
+        post = get_object_or_404(Post, pk=request.data.get('post_id'))
+        notification = Notification(sender_id=self.request.user, receiver_id=custom_user,
+                                    post_id=post, action="Comment")
+        notification.save()
+        user = request.user
         post = get_object_or_404(Post, id=kwargs_pk)
         serializer.save(author=custom_user, post=post)
 
