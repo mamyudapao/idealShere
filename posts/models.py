@@ -48,4 +48,5 @@ class Notification(models.Model):
     post_id = models.ForeignKey('posts.Post', on_delete=models.CASCADE)
     action = models.CharField(max_length=50)
     checked = models.BooleanField()
+    created_at = models.DateTimeField(auto_now_add=True)
 

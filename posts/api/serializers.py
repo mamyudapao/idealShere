@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
-from posts.models import Comment, Post, Member
+from posts.models import Comment, Post, Member, Notification
 
 from users.serializers import CustomUserSerializer
 
@@ -48,3 +48,10 @@ class MemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member
         fields = ['user', 'post', 'created_at']
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Notification
+        fields = "__all__"

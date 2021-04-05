@@ -2,8 +2,8 @@ from rest_framework import generics, viewsets, status
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.views import APIView
-from posts.api.serializers import CommentSerializer, PostSerializer, MemberSerializer
-from posts.models import Post, Comment, Member
+from posts.api.serializers import CommentSerializer, PostSerializer, MemberSerializer, NotificationSerializer
+from posts.models import Post, Comment, Member, Notification
 from users.models import CustomUser
 from rest_framework.response import Response
 
@@ -122,3 +122,18 @@ class CommentLikeAPIView(APIView):
 class MemberList(generics.ListCreateAPIView):
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
+
+
+# TODO: 自分のアカウントのやつだけが帰ってくるようにlistをオーバーライドする
+class NotificationList(generics.ListAPIView):
+    queryset = Notification.objects.all()
+    serializer_class = NotificationSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = Notification.objects.filter(
+            receiver_id=self.request.user.id).order_by('-created_at')
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+# TODO: checkedを変更できるようにする
+
