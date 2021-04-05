@@ -108,8 +108,11 @@ class CommentLikeAPIView(APIView):
 
     def post(self, request, pk):
         comment = get_object_or_404(Comment, pk=pk)
+        post = get_object_or_404(Post, pk=request.data.get('post_id'))
+        notification = Notification(sender_id=self.request.user, receiver_id=comment.author,
+                                    post_id=post, action="Like")
         user = request.user
-
+        notification.save()
         comment.voters.add(user)
         comment.save()
 
@@ -136,4 +139,3 @@ class NotificationList(generics.ListAPIView):
         return Response(serializer.data)
 
 # TODO: checkedを変更できるようにする
-
