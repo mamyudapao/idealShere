@@ -146,7 +146,6 @@ class NotificationList(generics.ListAPIView):
 
     def list(self, request, *args, **kwargs):
         queryset = Notification.objects.filter(
-            receiver_id=self.request.user.id).order_by('-created_at')
+            receiver_id=self.request.user.id, checked=False).order_by('-created_at')
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
-
