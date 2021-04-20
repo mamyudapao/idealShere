@@ -74,7 +74,7 @@ class PostCommentList(generics.ListCreateAPIView):
         kwargs_pk = self.kwargs.get('pk')
         custom_user = get_object_or_404(CustomUser, id=request_user.id)
         post = get_object_or_404(Post, pk=request.data.get('post_id'))
-        notification = Notification(sender_id=self.request.user, receiver_id=custom_user,
+        notification = Notification(sender_id=self.request.user, receiver_id=post.user,
                                     post_id=post, action="Comment")
         notification.save()
         user = request.user
@@ -149,3 +149,9 @@ class NotificationList(generics.ListAPIView):
             receiver_id=self.request.user.id, checked=False).order_by('-created_at')
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+
+class NotificationRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Notification.objects.all()
+    serializer_class = NotificationSerializer
+
