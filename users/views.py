@@ -1,6 +1,6 @@
 from rest_framework import generics
 
-from users.serializers import CustomUserSerializer
+from users.api.serializers import CustomUserSerializer
 from users.models import CustomUser
 
 

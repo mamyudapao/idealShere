@@ -2,7 +2,6 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 from posts.models import Comment, Post, Member, Notification
 
-from users.serializers import CustomUserSerializer
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -11,7 +10,7 @@ class PostSerializer(serializers.ModelSerializer):
     user_has_participated = serializers.SerializerMethodField()
     class Meta:
         model = Post
-        fields = ["title", "detail", "invitation", "member_number", "author", "id", "created_at", 'count_participants', 'user_has_participated',]
+        fields = ["title", "detail", "invitation", "member_number", "author", "id", "created_at", 'count_participants', 'user_has_participated', 'participants']
 
     def get_count_participants(self, instance):
         return instance.participants.count()

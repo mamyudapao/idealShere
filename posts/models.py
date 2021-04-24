@@ -31,9 +31,10 @@ class Comment(models.Model):
     def __str__(self):
         return self.content
 
-
-    
-
+class Chat(models.Model):
+    user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE)
+    message = models.CharField(max_length=240)
+    room = models.ForeignKey('posts.Post', on_delete=models.CASCADE)
 
 class Member(models.Model):
     user = models.ForeignKey(
@@ -42,11 +43,13 @@ class Member(models.Model):
         'posts.Post', on_delete=models.CASCADE, related_name='post_project')
     created_at = models.DateTimeField(auto_now_add=True)
 
+
 class Notification(models.Model):
-    sender_id = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='sender')
-    receiver_id = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='receiver')
+    sender_id = models.ForeignKey(
+        AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='sender')
+    receiver_id = models.ForeignKey(
+        AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='receiver')
     post_id = models.ForeignKey('posts.Post', on_delete=models.CASCADE)
     action = models.CharField(max_length=50)
     checked = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
-
