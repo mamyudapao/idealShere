@@ -2,8 +2,8 @@ from rest_framework import generics, viewsets, status
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.views import APIView
-from posts.api.serializers import CommentSerializer, PostSerializer, MemberSerializer, NotificationSerializer
-from posts.models import Post, Comment, Member, Notification
+from posts.api.serializers import CommentSerializer, PostSerializer, MemberSerializer, NotificationSerializer, ChatSerializer
+from posts.models import Post, Comment, Member, Notification, Chat
 from users.models import CustomUser
 from rest_framework.response import Response
 
@@ -154,4 +154,16 @@ class NotificationList(generics.ListAPIView):
 class NotificationRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Notification.objects.all()
     serializer_class = NotificationSerializer
+
+
+class ChatListView(generics.ListCreateAPIView):
+    queryset = Chat.objects.all()
+    serializer_class = ChatSerializer
+
+    
+    def list(self, request, *args, **kwargs):
+        room = Post.objects.filter(id=request.data.get('room'))
+        queryset = Chat.objects.filter(room__in=room).order_by('-created_at')
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 

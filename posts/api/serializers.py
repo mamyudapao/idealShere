@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
-from posts.models import Comment, Post, Member, Notification
+from posts.models import Comment, Post, Member, Notification, Chat
 
 
 
@@ -54,4 +54,11 @@ class NotificationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Notification
+        fields = "__all__"
+
+
+class ChatSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Chat
         fields = "__all__"

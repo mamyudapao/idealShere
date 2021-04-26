@@ -35,6 +35,7 @@ class Chat(models.Model):
     user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE)
     message = models.CharField(max_length=240)
     room = models.ForeignKey('posts.Post', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 class Member(models.Model):
     user = models.ForeignKey(
