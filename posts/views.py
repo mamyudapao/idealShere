@@ -29,9 +29,11 @@ class PostParticipateAPIView(APIView):
 
     def patch(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
-        user = request.user.id
+        user_id = request.user.id
+        user = get_object_or_404(CustomUser, pk=user_id)
 
-        post.participants.remove(user)
+        post.participants.remove(user_id)
+        user.projects.remove(post)
         post.save()
 
         serializer_context = {"request": request}
@@ -44,6 +46,7 @@ class PostParticipateAPIView(APIView):
         user = request.user
 
         post.participants.add(user)
+        user.projects.add(post)
         post.save()
 
         serializer_context = {"request": request}
