@@ -5,7 +5,7 @@ from PIL import Image
 class CustomUser(AbstractUser):
     skill = models.CharField(max_length=200, null=True)
     introduction = models.CharField(max_length=300,  null=True, blank=True)
-    image = models.ImageField(upload_to='users/', null=True, blank=True)
+    image = models.ImageField(upload_to='users/', null=True, blank=True, default='api/posts/sample.jpg')
     projects = models.ManyToManyField('posts.Post')
 
     def save(self, *args, **kwargs):

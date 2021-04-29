@@ -165,8 +165,8 @@ class ChatListView(generics.ListCreateAPIView):
 
     
     def list(self, request, *args, **kwargs):
-        room = Post.objects.filter(id=request.data.get('room'))
-        queryset = Chat.objects.filter(room__in=room).order_by('-created_at')
+        room = Post.objects.filter(id=request.query_params.get('room'))
+        queryset = Chat.objects.filter(room__in=room).order_by('created_at')
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
