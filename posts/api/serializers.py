@@ -13,7 +13,7 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ["title", "detail", "invitation", "member_number", "user", "id", "created_at", 'count_participants', 'user_has_participated', 'author_name', 'author_image']
-        read_only_fields = ['participants']
+        read_only_fields = ['participants', 'user']
 
     def get_count_participants(self, instance):
         return instance.participants.count()
