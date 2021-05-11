@@ -99,8 +99,10 @@ WSGI_APPLICATION = 'idealShere.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'idealShere',
+        'USER': 'nosiken',
+        'PASSWORD': '510015101Ab!'
     }
 }
 
