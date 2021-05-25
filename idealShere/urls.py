@@ -19,12 +19,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('account/', include('allauth.urls')),
-    path('dj-rest-auth/', include('dj_rest_auth.urls')),
-    path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
-    path('users/', include('users.urls')),
-    path('api/', include('posts.urls')),
+    path('api/admin/', admin.site.urls),
+    path('api/account/', include('allauth.urls')),
+    path('api/dj-rest-auth/', include('dj_rest_auth.urls')),
+    path('api/dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
+    path('api/users/', include('users.urls')),
+    path('api/api/', include('posts.urls')),
 ]
 
 if settings.DEBUG:

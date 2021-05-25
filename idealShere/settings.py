@@ -150,8 +150,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 STATIC_URL = '/static/'
-
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
@@ -179,10 +179,14 @@ CORS_ALLOW_HEADERS = [
 ]
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:8080',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000'
 )
 
 CORS_ORIGIN_REGEX_WHITELIST = [
     'http://localhost:8080',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
 ]
 
 
