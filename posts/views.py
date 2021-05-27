@@ -55,6 +55,15 @@ class PostParticipateAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+class PostSelfCreateView(generics.ListCreateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = Post.objects.filter(user=self.kwargs['pk'])
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
 class PostCommentList(generics.ListCreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
