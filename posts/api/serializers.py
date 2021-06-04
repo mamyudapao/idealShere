@@ -34,6 +34,7 @@ class PostSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
 
     author = serializers.StringRelatedField()
+    author_id = serializers.SerializerMethodField()
     author_image = serializers.SerializerMethodField()
     likes_count = serializers.SerializerMethodField()
     user_has_voted = serializers.SerializerMethodField()
@@ -41,6 +42,9 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         exclude = ['post', 'voters']
+
+    def get_author_id(self, instance):
+        return instance.author.id
 
     def get_likes_count(self, instance):
         return instance.voters.count()
