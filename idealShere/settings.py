@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
 
-
+    'storages',
 
     'corsheaders',
 
@@ -147,11 +147,21 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 
 
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 STATIC_URL = '/static/'
+
+#AWS settings
+AWS_ACCESS_KEY_ID = 'AKIA5X5CNWZK7J4L3WYN'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'ideal-shere'
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_FILE_OVERWRITE = False
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
@@ -202,7 +212,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=5),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
